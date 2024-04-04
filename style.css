@@ -1,0 +1,84 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+#gameContainer {
+    position: relative;
+    width: 600px;
+    height: 200px;
+    background-color: white;
+    overflow: hidden;
+}
+
+#dino {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    background-color: #000;
+    left: 50px;
+}
+
+#ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #444;
+}
+
+.obstacle {
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    height: 40px;
+    background-color: green;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #000;
+    font-size: 24px;
+    font-family: 'Arial', sans-serif;
+}
+
+#startBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 10; /* Make sure it's clickable over other elements */
+}
+
+#scoreboard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #000;
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+#finalScore {
+    font-size: 24px;
+    margin: 20px;
+}
+
+#restartBtn {
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
