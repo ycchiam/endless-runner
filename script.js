@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startBtn').addEventListener('click', startGame);
     document.getElementById('restartBtn').addEventListener('click', restartGame);
     document.addEventListener('keydown', handleJumpEvent);
-    gameContainer.addEventListener('click', function() {
+    gameContainer.addEventListener('mousedown', function() {
         handleJump();
     });
 });
