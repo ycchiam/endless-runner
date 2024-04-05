@@ -8,19 +8,24 @@ body, html {
 }
 
 #gameContainer {
+    width: 100vw; /* Take up 100% of the viewport width */
+    max-width: 800px; /* Example max width */
+    height: 50vw; /* Height can also be responsive, or use a fixed height */
+    max-height: 400px; /* Example max height */
     position: relative;
-    width: 600px;
-    height: 200px;
-    background-color: white;
     overflow: hidden;
+    margin: auto; /* Center the game container if there's extra space */
+    background-color: #9BD8EB;
 }
 
 #dino {
     position: absolute;
     bottom: 0;
-    width: 40px;
-    height: 40px;
-    background-color: #000;
+    width: 64px;
+    height: 64px;
+    background-image: url('char.jpg');
+    background-size: cover; /* Adjust as needed to fit the element */
+    /* background-color: #000; */
     left: 50px;
 }
 
@@ -35,8 +40,9 @@ body, html {
 .obstacle {
     position: absolute;
     bottom: 0;
-    width: 20px;
-    height: 40px;
+    width: 5vw; /* Example responsive width for obstacles */
+    max-width: 40px; /* Prevent obstacles from becoming too large */
+    height: auto; /* Maintain aspect ratio */
     background-color: green;
 }
 
@@ -81,4 +87,14 @@ body, html {
     font-size: 20px;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    #gameContainer {
+        height: 75vw; /* Increase height proportion on smaller screens */
+    }
+    #dino, .obstacle {
+        bottom: 15%; /* Adjust positioning for smaller screens */
+    }
+    /* Other responsive adjustments */
 }

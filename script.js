@@ -3,6 +3,7 @@ let isGameRunning = false;
 let scoreInterval, speedInterval, nextObstacleTimeoutId;
 let speed = 10; // Initial speed of obstacles set to 10
 let isJumping = false;
+let jumpUpInterval; // Tracks the interval for the jump ascent
 const speedIncrease = 0.1;
 const dino = document.getElementById('dino');
 const gameContainer = document.getElementById('gameContainer');
@@ -10,10 +11,22 @@ const gameContainer = document.getElementById('gameContainer');
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startBtn').addEventListener('click', startGame);
     document.getElementById('restartBtn').addEventListener('click', restartGame);
-    document.addEventListener('keydown', handleJumpEvent);
-    gameContainer.addEventListener('mousedown', function() {
-        handleJump();
+    
+    // Separate listeners for keydown and keyup to handle the jump start and end
+    document.addEventListener('keydown', (event) => {
+        if ((event.key === ' ' || event.key === 'ArrowUp') && !isJumping) {
+            handleJumpStart();
+        }
     });
+
+    document.addEventListener('keyup', (event) => {
+        if (event.key === ' ' || event.key === 'ArrowUp') {
+            handleJumpEnd();
+        }
+    });
+
+    gameContainer.addEventListener('mousedown', handleJumpStart);
+    gameContainer.addEventListener('mouseup', handleJumpEnd);
 });
 
 function startGame() {
@@ -39,30 +52,34 @@ function updateDOMElementsForStart() {
     document.getElementById('score').innerText = `Score: ${score}`;
 }
 
-function handleJumpEvent(event) {
-    if (event.key === ' ' || event.key === 'ArrowUp') {
-        handleJump();
-    }
-}
-
-function handleJump() {
+function handleJumpStart() {
     if (!isGameRunning || isJumping) return;
     isJumping = true;
-    let position = 0;
-    let upInterval = setInterval(() => {
-        if (position >= 150) {
-            clearInterval(upInterval);
-            let downInterval = setInterval(() => {
-                if (position <= 0) {
-                    clearInterval(downInterval);
-                    isJumping = false;
-                } else {
-                    position -= 3;
-                    dino.style.bottom = position + 'px';
-                }
-            }, 20);
+    let position = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+    let maxJumpHeight = position + 150; // Define how high the dino can jump
+
+    clearInterval(jumpUpInterval); // Clear previous interval if it exists
+    jumpUpInterval = setInterval(() => {
+        if (position >= maxJumpHeight) {
+            clearInterval(jumpUpInterval); // Stop ascent
+            handleJumpEnd(); // Start descent immediately if needed
         } else {
-            position += 30;
+            position += 15;
+            dino.style.bottom = position + 'px';
+        }
+    }, 20);
+}
+
+function handleJumpEnd() {
+    clearInterval(jumpUpInterval); // Ensure ascent is stopped
+    let position = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+    let downInterval = setInterval(() => {
+        if (position <= 0) {
+            clearInterval(downInterval);
+            isJumping = false; // Reset jumping state when landing
+            dino.style.bottom = '0px'; // Ensure dino lands properly
+        } else {
+            position -= 5;
             dino.style.bottom = position + 'px';
         }
     }, 20);
