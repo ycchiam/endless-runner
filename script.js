@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gameContainer.addEventListener('mousedown', handleJumpStart);
     gameContainer.addEventListener('mouseup', handleJumpEnd);
+
+    // Touch events for jump
+    gameContainer.addEventListener('touchstart', (event) => {
+        event.preventDefault(); // Prevent scrolling or other default touch behaviors
+        handleJumpStart();
+    });
+    gameContainer.addEventListener('touchend', (event) => {
+        event.preventDefault(); // It's good practice to prevent default behavior
+        handleJumpEnd();
+    });
 });
 
 function startGame() {
